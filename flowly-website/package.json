@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm install --legacy-peer-deps && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -24,7 +24,6 @@
     "next": "^15.3.2",
     "openai": "^4.98.0",
     "react": "^19.0.0",
-    "react-calendar": "^4.8.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "stripe": "^18.1.1"
