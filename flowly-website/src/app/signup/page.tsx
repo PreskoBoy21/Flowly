@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { signUp } from '@/lib/supabase'
+import { signUp } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 
 export default function SignUpPage() {

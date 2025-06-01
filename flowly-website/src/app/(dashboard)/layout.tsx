@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import { getCurrentUser, signOut, type User } from '@/lib/supabase'
+import { getCurrentUser, signOut, type User } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 
 export default function DashboardLayout({

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { signIn } from '@/lib/supabase'
+import { signIn } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 
 export default function LoginPage() {
@@ -20,7 +20,7 @@ export default function LoginPage() {
 
     try {
       await signIn(formData.email, formData.password)
-      const { supabase } = await import('@/lib/supabase');
+      const { supabase } = await import('../../lib/supabase');
       supabase.auth.getSession().then(console.log);
       toast.success('Successfully signed in!')
       console.log('Redirecting to /dashboard...')
