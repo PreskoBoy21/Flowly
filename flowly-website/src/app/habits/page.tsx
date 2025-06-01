@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../../lib/supabase';
 import { format, startOfWeek, addDays, isSameDay, parseISO, subDays, differenceInDays } from 'date-fns';
 import toast from 'react-hot-toast';
 import Link from 'next/link';

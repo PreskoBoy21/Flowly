@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { format, startOfWeek, addDays, isSameDay, parseISO, differenceInMinutes } from 'date-fns';
 import { useSession } from '@supabase/auth-helpers-react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../../lib/supabase';
 
 const COLORS = [
   '#22c55e', // green
