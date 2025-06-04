@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
     const response = await getAIResponse(prompt);
     return NextResponse.json({ response });
   } catch (error) {
+    console.error('AI API Error:', error);
     return NextResponse.json({ error: 'Failed to get AI response' }, { status: 500 });
   }
 } 

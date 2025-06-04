@@ -4,16 +4,42 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../lib/supabase";
 
+// Define types for better type safety
+interface Profile {
+  full_name: string | null;
+}
+
+interface Task {
+  id: string;
+  title: string;
+  completed: boolean;
+  priority: 'high' | 'medium' | 'low';
+  due_date: string | null;
+}
+
+interface Habit {
+  id: string;
+  name: string;
+  frequency: string;
+}
+
+interface Goal {
+  id: string;
+  title: string;
+  progress: number;
+  status: 'in_progress' | 'completed' | 'paused';
+}
+
 export default function DashboardPage() {
   const session = useSession();
   const router = useRouter();
 
-  const [profile, setProfile] = useState(null);
-  const [tasks, setTasks] = useState([]);
-  const [habits, setHabits] = useState([]);
-  const [goals, setGoals] = useState([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [habits, setHabits] = useState<Habit[]>([]);
+  const [goals, setGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!session) {
@@ -59,7 +85,7 @@ export default function DashboardPage() {
         if (goalsError) throw goalsError;
         setGoals(goalsData || []);
       } catch (err) {
-        setError(err.message || "Failed to load dashboard data.");
+        setError(err instanceof Error ? err.message : "Failed to load dashboard data.");
       } finally {
         setLoading(false);
       }
@@ -83,7 +109,7 @@ export default function DashboardPage() {
           Welcome back{profile && profile.full_name ? `, ${profile.full_name}` : ""}!
         </h1>
         <p className="mt-1 text-sm text-[#64748b]">
-          Here's an overview of your productivity today.
+          Here&apos;s an overview of your productivity today.
         </p>
       </div>
 
@@ -100,7 +126,7 @@ export default function DashboardPage() {
               </div>
               <div className="ml-5 w-0 flex-1">
                 <dl>
-                  <dt className="truncate text-sm font-medium text-[#64748b]">Today's Tasks</dt>
+                  <dt className="truncate text-sm font-medium text-[#64748b]">Today&apos;s Tasks</dt>
                   <dd>
                     <div className="text-lg font-medium text-[#0f172a]">{completedTasks}/{totalTasks} completed</div>
                   </dd>

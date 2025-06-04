@@ -4,13 +4,13 @@ import { createClient } from '@supabase/supabase-js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-04-30.basil' });
 
-// Initialize Supabase client (service role key is recommended for server-side updates)
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // Add this to your .env.local
-);
-
 export async function POST(req: NextRequest) {
+  // Initialize Supabase client inside the function to avoid build-time issues
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   const sig = req.headers.get('stripe-signature');
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -42,10 +42,10 @@ export async function POST(req: NextRequest) {
             stripe_customer_id: stripeCustomerId,
             stripe_subscription_id: stripeSubscriptionId,
             status: subscription.status,
-            plan_type: subscription.items.data[0].price.recurring?.interval,
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+            plan_type: subscription.items.data[0]?.price?.recurring?.interval,
+            current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
           },
-        ], { onConflict: ['user_id'] });
+        ], { onConflict: 'user_id' });
 
       // Update user role
       await supabase

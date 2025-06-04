@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from '@supabase/auth-helpers-react';
 import { supabase } from '../../lib/supabase';
-import { format, startOfWeek, addDays, isSameDay, parseISO, subDays, differenceInDays } from 'date-fns';
+import { format, startOfWeek, addDays } from 'date-fns';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
@@ -46,8 +46,6 @@ export default function HabitsPage() {
   const [newHabitName, setNewHabitName] = useState('');
   const [newHabitFrequency, setNewHabitFrequency] = useState<'daily' | 'weekly'>('daily');
   const [newHabitDescription, setNewHabitDescription] = useState('');
-  const [newHabitTargetDays, setNewHabitTargetDays] = useState(7);
-  const [newHabitColor, setNewHabitColor] = useState('#22c55e');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'daily' | 'weekly'>('all');
@@ -125,9 +123,9 @@ export default function HabitsPage() {
         setHabitLogs(logsData);
         setStats(stats);
         setIsInitialized(true);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Error initializing habits:', err);
-        setError(err.message || 'Failed to load habits');
+        setError(err instanceof Error ? err.message : 'Failed to load habits');
         toast.error('Failed to load habits');
       } finally {
         setLoading(false);
@@ -140,8 +138,6 @@ export default function HabitsPage() {
   // Calculate habit statistics
   const calculateStats = (habits: Habit[], logs: HabitLog[]): HabitStats => {
     const todayStr = format(today, 'yyyy-MM-dd');
-    const weekStartStr = format(weekStart, 'yyyy-MM-dd');
-    const weekEndStr = format(addDays(weekStart, 7), 'yyyy-MM-dd');
 
     const weeklyProgress: { [key: string]: number } = {};
     weekDates.forEach(date => {
@@ -206,8 +202,8 @@ export default function HabitsPage() {
       setShowAddModal(false);
       resetForm();
       toast.success('Habit added successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to add habit');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to add habit');
       toast.error('Failed to add habit');
     } finally {
       setLoading(false);
@@ -248,8 +244,8 @@ export default function HabitsPage() {
       setShowEditModal(false);
       resetForm();
       toast.success('Habit updated successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to update habit');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to update habit');
       toast.error('Failed to update habit');
     } finally {
       setLoading(false);
@@ -282,8 +278,8 @@ export default function HabitsPage() {
       setHabits((prev) => prev.filter((h) => h.id !== selectedHabit.id));
       setShowDeleteModal(false);
       toast.success('Habit deleted successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete habit');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to delete habit');
       toast.error('Failed to delete habit');
     } finally {
       setLoading(false);
@@ -382,9 +378,9 @@ export default function HabitsPage() {
       }
 
       toast.success('Habit check updated');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error updating habit check:', err);
-      setError(err.message || 'Failed to update habit check');
+      setError(err instanceof Error ? err.message : 'Failed to update habit check');
       toast.error('Failed to update habit check');
     } finally {
       setLoading(false);
@@ -800,7 +796,7 @@ export default function HabitsPage() {
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
             <h2 className="text-xl font-semibold mb-4 text-[#0f172a]">Delete Habit</h2>
             <p className="text-[#64748b] mb-6">
-              Are you sure you want to delete "{selectedHabit.name}"? This action cannot be undone.
+              Are you sure you want to delete &quot;{selectedHabit.name}&quot;? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-2">
               <button
@@ -876,7 +872,7 @@ export default function HabitsPage() {
                 <h3 className="text-sm font-medium text-[#64748b] mb-4">Completion Stats</h3>
                 <div className="space-y-4">
                   <div>
-                    <div className="text-sm text-[#64748b]">Today's Progress</div>
+                    <div className="text-sm text-[#64748b]">Today&apos;s Progress</div>
                     <div className="mt-1 flex items-center">
                       <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
                         <div

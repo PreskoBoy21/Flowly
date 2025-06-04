@@ -37,7 +37,7 @@ export default function Home() {
                 Boost Your Productivity with AI-Powered Planning
               </h1>
               <p className="mt-6 text-lg leading-8 text-[#64748b]">
-                Organize tasks, build habits, and achieve your goals with Flowly's clean, intuitive interface and AI-enhanced features.
+                Organize tasks, build habits, and achieve your goals with Flowly&apos;s clean, intuitive interface and AI-enhanced features.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link

@@ -5,7 +5,6 @@ import { useSession } from '@supabase/auth-helpers-react';
 import { supabase } from '../../lib/supabase';
 import { format, parseISO, isAfter, isBefore, addDays } from 'date-fns';
 import toast from 'react-hot-toast';
-import Link from 'next/link';
 
 interface Goal {
   id: string;
@@ -126,9 +125,9 @@ export default function GoalsPage() {
         setMilestones(milestonesData);
         setStats(stats);
         setIsInitialized(true);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('Error initializing goals:', err);
-        setError(err.message || 'Failed to load goals');
+        setError(err instanceof Error ? err.message : 'Failed to load goals');
         toast.error('Failed to load goals');
       } finally {
         setLoading(false);
@@ -202,8 +201,8 @@ export default function GoalsPage() {
       setShowAddModal(false);
       resetForm();
       toast.success('Goal added successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to add goal');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to add goal');
       toast.error('Failed to add goal');
     } finally {
       setLoading(false);
@@ -244,8 +243,8 @@ export default function GoalsPage() {
       setShowEditModal(false);
       resetForm();
       toast.success('Goal updated successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to update goal');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to update goal');
       toast.error('Failed to update goal');
     } finally {
       setLoading(false);
@@ -279,8 +278,8 @@ export default function GoalsPage() {
       setMilestones((prev) => prev.filter((m) => m.goal_id !== selectedGoal.id));
       setShowDeleteModal(false);
       toast.success('Goal deleted successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete goal');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to delete goal');
       toast.error('Failed to delete goal');
     } finally {
       setLoading(false);
@@ -314,8 +313,8 @@ export default function GoalsPage() {
       setShowMilestoneModal(false);
       resetMilestoneForm();
       toast.success('Milestone added successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to add milestone');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to add milestone');
       toast.error('Failed to add milestone');
     } finally {
       setLoading(false);
@@ -362,8 +361,8 @@ export default function GoalsPage() {
       );
 
       toast.success('Milestone updated successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to update milestone');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to update milestone');
       toast.error('Failed to update milestone');
     } finally {
       setLoading(false);
@@ -391,8 +390,8 @@ export default function GoalsPage() {
       );
 
       toast.success('Goal status updated successfully');
-    } catch (err: any) {
-      setError(err.message || 'Failed to update goal status');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to update goal status');
       toast.error('Failed to update goal status');
     } finally {
       setLoading(false);
@@ -946,7 +945,7 @@ export default function GoalsPage() {
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
             <h2 className="text-xl font-semibold mb-4 text-[#0f172a]">Delete Goal</h2>
             <p className="text-[#64748b] mb-6">
-              Are you sure you want to delete "{selectedGoal.title}"? This action cannot be undone and will also delete all associated milestones.
+              Are you sure you want to delete &quot;{selectedGoal.title}&quot;? This action cannot be undone and will also delete all associated milestones.
             </p>
             <div className="flex justify-end gap-2">
               <button

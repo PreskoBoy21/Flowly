@@ -66,6 +66,10 @@ export default function SettingsPage() {
   };
 
   const handleDeleteAccount = async () => {
+    if (!session) {
+      toast.error("No session found");
+      return;
+    }
     if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
     setDeleteLoading(true);
     try {
@@ -77,8 +81,8 @@ export default function SettingsPage() {
       await supabase.from("subscriptions").delete().eq("user_id", session.user.id);
       toast.success("Account deleted. Goodbye!");
       window.location.href = "/";
-    } catch (err: any) {
-      toast.error(err.message || "Failed to delete account.");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Failed to delete account.");
     } finally {
       setDeleteLoading(false);
     }
