@@ -107,7 +107,7 @@ export default function GoalsPage() {
         if (milestonesResponse.error) throw milestonesResponse.error;
 
         const goalsData = goalsResponse.data || [];
-        const milestonesData = milestonesResponse.data?.map(m => ({
+        const milestonesData = milestonesResponse.data?.map((m: any) => ({
           id: m.id,
           goal_id: m.goal_id,
           title: m.title,
