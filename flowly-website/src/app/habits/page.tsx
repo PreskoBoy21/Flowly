@@ -110,7 +110,7 @@ export default function HabitsPage() {
         const logsData = logsResponse.data as HabitLog[] || [];
 
         // Calculate streaks and stats in a single pass
-        const habitsWithStreaks = habitsData.map(habit => {
+        const habitsWithStreaks = habitsData.map((habit: any) => {
           const habitLogs = logsData.filter(log => log.habit_id === habit.id);
           const streak = calculateStreak(habit.id, new Date(), habitLogs);
           return { ...habit, streak };
