@@ -1,18 +1,19 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Check if we're in build environment
-const isBuildTime = process.env.NODE_ENV === 'production' && !process.env.VERCEL_ENV
+// Check if we're in a browser environment
+const isBrowser = typeof window !== 'undefined'
 
-// Function to get Supabase client - only initializes when called
+// Function to get Supabase client - only works in browser
 export function getSupabaseClient() {
+  // Return null during SSR/build time
+  if (!isBrowser) {
+    return null as any
+  }
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    if (isBuildTime) {
-      // Return a mock client during build time
-      return null as any
-    }
     throw new Error('Missing Supabase environment variables')
   }
 
@@ -20,7 +21,7 @@ export function getSupabaseClient() {
 }
 
 // Safe export that won't fail during build
-export const supabase = isBuildTime ? null as any : getSupabaseClient()
+export const supabase = isBrowser ? getSupabaseClient() : null as any
 
 export type User = {
   id: string
