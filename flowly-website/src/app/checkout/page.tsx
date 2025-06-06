@@ -69,7 +69,7 @@ function CheckoutForm() {
               }
             </p>
             <div className="text-2xl font-bold">
-              ${plan === "pro" ? "9.99" : "4.99"}/month
+              €{plan === "pro" ? "7.00" : "4.99"}/month
             </div>
           </div>
 

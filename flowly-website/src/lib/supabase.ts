@@ -36,6 +36,17 @@ export async function signUp(email: string, password: string, fullName: string) 
     const supabase = getSupabaseClient()
     if (!supabase) throw new Error('Supabase not available')
     
+    // First check if user already exists
+    const { data: existingUser } = await supabase
+      .from('profiles')
+      .select('id, email')
+      .eq('email', email.toLowerCase())
+      .single()
+    
+    if (existingUser) {
+      throw new Error('User already registered. Please sign in instead.')
+    }
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -49,6 +60,10 @@ export async function signUp(email: string, password: string, fullName: string) 
 
     if (error) {
       console.error('Auth signup error:', error)
+      // Handle specific error cases
+      if (error.message.includes('User already registered')) {
+        throw new Error('User already registered. Please sign in instead.')
+      }
       throw new Error(error.message)
     }
 
@@ -60,6 +75,7 @@ export async function signUp(email: string, password: string, fullName: string) 
           {
             id: data.user.id,
             full_name: fullName,
+            email: email.toLowerCase(),
             role: 'free_user',
           },
         ])
@@ -75,10 +91,16 @@ export async function signUp(email: string, password: string, fullName: string) 
           hint: profileError.hint,
           user: data.user.id
         })
-        throw new Error(`Failed to create user profile: ${profileError.message}`)
+        
+        // If profile already exists, that's okay - user might have signed up but not completed email verification
+        if (profileError.code === '23505') { // Unique constraint violation
+          console.log('Profile already exists, continuing...')
+        } else {
+          throw new Error(`Failed to create user profile: ${profileError.message}`)
+        }
+      } else {
+        console.log('Profile created successfully:', profileData)
       }
-
-      console.log('Profile created successfully:', profileData)
     }
 
     return data

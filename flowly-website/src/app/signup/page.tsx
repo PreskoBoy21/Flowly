@@ -41,9 +41,18 @@ function SignUpForm() {
       }
     } catch (error: any) {
       console.error('Signup error:', error)
-      // Show more detailed error message
-      const errorMessage = error?.message || 'Failed to create account. Please try again.'
-      toast.error(errorMessage)
+      
+      // Handle specific error cases
+      if (error?.message?.includes('User already registered')) {
+        toast.error('This email is already registered. Redirecting to login...')
+        setTimeout(() => {
+          router.push('/login')
+        }, 2000)
+      } else {
+        // Show more detailed error message
+        const errorMessage = error?.message || 'Failed to create account. Please try again.'
+        toast.error(errorMessage)
+      }
     } finally {
       setIsLoading(false)
     }
