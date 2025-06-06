@@ -82,18 +82,18 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Floating SEO Profile Badge */}
+      {/* Floating CEO Profile Badge */}
       <div className="fixed bottom-6 right-6 z-50">
         <div className="bg-white rounded-full shadow-lg border-2 border-[#22c55e] p-3 hover:shadow-xl transition-shadow duration-300">
           <div className="flex flex-col items-center">
             <Image
               src="/profile.jpg"
-              alt="SEO Expert"
+              alt="CEO & Founder"
               width={50}
               height={50}
               className="rounded-full mb-1"
             />
-            <span className="text-xs font-semibold text-[#22c55e]">SEO</span>
+            <span className="text-xs font-semibold text-[#22c55e]">CEO</span>
           </div>
         </div>
       </div>
