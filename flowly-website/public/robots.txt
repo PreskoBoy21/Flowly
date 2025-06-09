@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /settings/
+Disallow: /checkout/
+Disallow: /_next/
+
+# Host
+Host: https://www.myflowly.com
+
+# Sitemaps
+Sitemap: https://www.myflowly.com/sitemap.xml
