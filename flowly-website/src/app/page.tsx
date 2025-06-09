@@ -19,10 +19,17 @@ export default function Home() {
       <header>
         <nav className="border-b border-gray-100 bg-white" role="navigation" aria-label="Main navigation">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex h-16 justify-between items-center">
+            <div className="flex h-24 justify-between items-center">
               <div className="flex-shrink-0">
-                <Link href="/" aria-label="Flowly homepage">
-                  <h1 className="text-2xl font-bold text-[#0f172a]">Flowly</h1>
+                <Link href="/" aria-label="Flowly homepage" className="flex items-center space-x-2">
+                  <Image
+                    src="/flowly-logo.png"
+                    alt="Flowly Logo"
+                    width={300}
+                    height={90}
+                    className="h-20 w-auto"
+                    priority
+                  />
                 </Link>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -162,8 +169,14 @@ export default function Home() {
       <footer className="bg-white border-t border-gray-200">
         <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-[#0f172a]">Flowly</h2>
-            <p className="mt-2 text-sm text-[#64748b]">
+            <Image
+              src="/flowly-logo.png"
+              alt="Flowly Logo"
+              width={140}
+              height={45}
+              className="h-10 w-auto mx-auto"
+            />
+            <p className="mt-4 text-sm text-[#64748b]">
               AI-powered productivity planner for modern professionals
             </p>
             <nav className="mt-6 flex justify-center space-x-6" aria-label="Footer navigation">
